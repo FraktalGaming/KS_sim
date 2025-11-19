@@ -10,9 +10,38 @@ import sim_ks_lib as sksl
 
 st.title('Frakinator -- WORK IN PROGRESS')
 
-st.text('Stuck in mystic trials?')
-st.text('Not sure what troop composition to use?')
-st.text('The Frakinator is here to help!')
+st.write("Stuck in mystic trials? Not sure what troop composition to use?\n \
+    The Frakinator is here to help!"
+    )
+
+st.write("""
+    The Frakinator accurately simulates the Kingshot battle mechanics,
+    and is able to predict the outcome of a battle given the stats of the two opponents.
+    The Frakinator is specifically designed to help you in the four trials that don't use heroes
+    \n 
+    It samples the various troop compositions, simulates a given number of battles and return the proportion of victories as a chance of victory.
+""")
+
+st.markdown('### Instructions')
+st.write("""
+    1. Enter yous stats and the stats of the oppenent, as they appear on a mystic trial battle report,\n 
+
+     2. Vary the simulation parameters for more accurate results:\n 
+        - number of battles: represents the nukmber of battles that are simulated for each troop composition \n 
+        - sparsity: number of troop composition that are samples. Start with 0.05, and if finer sampling is required, use 0.025.\n 
+        - Min infantry fraction: saves time by avoiding bad composition with low infantry
+""")
+
+
+
+
+
+# The objective of this demonstrator is to have an iterative tool to perform 
+# Bayesian Linear regression. It is based on chapter 7 of the Murphy book.""")
+
+# st.text('Stuck in mystic trials?')
+# st.text('Not sure what troop composition to use?')
+# st.text('The Frakinator is here to help!')
 
 with st.form('form1'):
     st.subheader('Your stats')
@@ -24,35 +53,35 @@ with st.form('form1'):
             'Initial infantry troops',
             min_value=0,
             value=50000,
-            step=None,
+            step=1,
             format="%d", key='inf_troops_p1')
 
         inf_att_p1 = st.number_input(
             'Infantry attack (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='inf_att_p1')
 
         inf_def_p1 = st.number_input(
             'Infantry defense (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='inf_def_p1')
 
         inf_let_p1 = st.number_input(
             'Infantry lethality (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='inf_let_p1')
 
         inf_hea_p1 = st.number_input(
             'Infantry health (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='inf_hea_p1')
 
 
@@ -62,35 +91,35 @@ with st.form('form1'):
             'Initial cavalry troops',
             min_value=0,
             value=50000,
-            step=None,
+            step=1,
             format="%d", key='cav_troops_p1')
 
         cav_att_p1 = st.number_input(
             'Cavalry attack (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='cav_att_p1')
 
         cav_def_p1 = st.number_input(
             'Cavalry defense (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='cav_def_p1')
 
         cav_let_p1 = st.number_input(
             'Cavalry lethality (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='cav_let_p1')
 
         cav_hea_p1 = st.number_input(
             'Cavalry health (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='cav_hea_p1')
 
     with col3: 
@@ -99,35 +128,35 @@ with st.form('form1'):
             'Initial archery troops',
             min_value=0,
             value=50000,
-            step=None,
+            step=1,
             format="%d", key='arc_troops_p1')
 
         arc_att_p1 = st.number_input(
             'Archery attack (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='arc_att_p1')
 
         arc_def_p1 = st.number_input(
             'Archery defense (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='arc_def_p1')
 
         arc_let_p1 = st.number_input(
             'Archery lethality (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='arc_let_p1')
 
         arc_hea_p1 = st.number_input(
             'Archery health (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='arc_hea_p1')
 
     st.subheader('Opponent stats')
@@ -138,35 +167,35 @@ with st.form('form1'):
             'Initial infantry troops',
             min_value=0,
             value=60000,
-            step=None,
+            step=1,
             format="%d", key='inf_troops_p2')
 
         inf_att_p2 = st.number_input(
             'Infantry attack (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='inf_att_p2')
 
         inf_def_p2 = st.number_input(
             'Infantry defense (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='inf_def_p2')
 
         inf_let_p2 = st.number_input(
             'Infantry lethality (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='inf_let_p2')
 
         inf_hea_p2 = st.number_input(
             'Infantry health (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='inf_hea_p2')
 
 
@@ -176,35 +205,35 @@ with st.form('form1'):
             'Initial cavalry troops',
             min_value=0,
             value=45000,
-            step=None,
+            step=1,
             format="%d", key='cav_troops_p2')
 
         cav_att_p2 = st.number_input(
             'Cavalry attack (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='cav_att_p2')
 
         cav_def_p2 = st.number_input(
             'Cavalry defense (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='cav_def_p2')
 
         cav_let_p2 = st.number_input(
             'Cavalry lethality (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='cav_let_p2')
 
         cav_hea_p2 = st.number_input(
             'Cavalry health (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='cav_hea_p2')
 
     with col6: 
@@ -213,35 +242,35 @@ with st.form('form1'):
             'Initial archery troops',
             min_value=0,
             value=45000,
-            step=None,
+            step=1,
             format="%d", key='arc_troops_p2')
 
         arc_att_p2 = st.number_input(
             'Archery attack (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='arc_att_p2')
 
         arc_def_p2 = st.number_input(
             'Archery defense (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='arc_def_p2')
 
         arc_let_p2 = st.number_input(
             'Archery lethality (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='arc_let_p2')
 
         arc_hea_p2 = st.number_input(
             'Archery health (in %)',
             min_value=0.0,
             value=200.0,
-            step=None,
+            step=1.0,
             format="%0.2f", key='arc_hea_p2')
 
     st.subheader('Simulation parameters')
@@ -355,12 +384,12 @@ if submitted:
     sc = ax.scatter(finf_tab, fcav_tab, c=np.array(res_tab)*100, vmin=0)
     ax.plot(.50, .25, c='r', lw=0, marker='x', ms=5, label='50/25/25', mew=3)
     ax.plot(finf_best, fcav_best,  c='m', lw=0, marker='x', ms=3, label='Best {}/{}/{}'.format(int(finf_best*100), int(fcav_best*100), int(farc_best*100)), mew=3)
-    ax.set_xlabel('f_inf')
-    ax.set_ylabel('f_cav')
+    ax.set_xlabel('infantry fraction')
+    ax.set_ylabel('cavalry fraction')
     ax.set_xlim(-0.05, 1.05)
     ax.set_ylim(-0.05, 1.05)
     ax.legend()
-    ax.set_title('inf - cav ratio for {}, {}'.format(player1.player_name, player1.battle_name)) 
+    #ax.set_title(', {}'.format(player1.player_name, player1.battle_name)) 
     fig1.colorbar(sc, label='chances of victory [%] ')
     fig1.text(0.7, -0.15, 'Plot made with the Frakinator', size='small', transform=ax.transAxes)
 
@@ -381,6 +410,9 @@ if submitted:
 
 
     st.pyplot(fig1)
+    st.write("""
+    You have an appromative {}\% chance to win with the following composition {}/{}/{}.
+  """.format(int(min_val*100), int(100*finf_best), int(100*fcav_best), int(100*farc_best)))
     # st.pyplot(fig2)
 
             # fig = plt.figure(1, figsize=[fs/1.2 for fs in matplotlib.rcParams['figure.figsize']])
