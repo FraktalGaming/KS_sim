@@ -10,257 +10,20 @@ import sim_ks_lib as sksl
 
 st.title('Frakinator -- WORK IN PROGRESS')
 
-st.text('Stuck in mythic trial?')
+st.text('Stuck in mystic trials?')
 st.text('Not sure what troop composition to use?')
 st.text('The Frakinator is here to help!')
 
-
-# st.sidebar.title("Stats")
-# with st.sidebar.form("toto"):  
-#     st.write('Yours stats')
-#     # inf_troops_p1 = st.number_input(
-#     #     'Initial infantry troops',
-#     #     min_value=0,
-#     #     value=10000,
-#     #     step=None,
-#     #     format="%d", key='inf_troops_p1')
-#     # cav_troops_p1 = st.number_input(
-#     #     'Initial cavalry troops',
-#     #     min_value=0,
-#     #     value=10000,
-#     #     step=None,
-#     #     format="%d", key='cav_troops_p1')
-#     # arc_troops_p1 = st.number_input(
-#     #     'Initial archery troops',
-#     #     min_value=0,
-#     #     value=10000,
-#     #     step=None,
-#     #     format="%d", key='arc_troops_p1')
-
-#     # inf_att_p1 = st.number_input(
-#     #     'Infantry attack (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='inf_att_p1')
-
-#     # inf_def_p1 = st.number_input(
-#     #     'Infantry defense (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='inf_def_p1')
-
-#     # inf_let_p1 = st.number_input(
-#     #     'Infantry lethality (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='inf_let_p1')
-
-#     # inf_hea_p1 = st.number_input(
-#     #     'Infantry health (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='inf_hea_p1')
-   
-        
-#     # cav_att_p1 = st.number_input(
-#     #     'Cavalry attack (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='cav_att_p1')
-
-#     # cav_def_p1 = st.number_input(
-#     #     'Cavalry defense (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='cav_def_p1')
-
-#     # cav_let_p1 = st.number_input(
-#     #     'Cavalry lethality (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='cav_let_p1')
-
-#     # cav_hea_p1 = st.number_input(
-#     #     'Cavalry health (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='cav_hea_p1')
-   
-#     # arc_att_p1 = st.number_input(
-#     #     'Archery attack (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='arc_att_p1')
-
-#     # arc_def_p1 = st.number_input(
-#     #     'Archery defense (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='arc_def_p1')
-
-#     # arc_let_p1 = st.number_input(
-#     #     'Archery lethality (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='arc_let_p1')
-
-#     # arc_hea_p1 = st.number_input(
-#     #     'Archery health (in %)',
-#     #     min_value=0.0,
-#     #     value=200.0,
-#     #     step=None,
-#     #     format="%0.2f", key='arc_hea_p1')
-   
-
-#     st.write('Opponents stats')
-#     inf_troops_p2 = st.number_input(
-#         'Initial infantry troops',
-#         min_value=0,
-#         value=10000,
-#         step=None,
-#         format="%d")
-#     cav_troops_p2 = st.number_input(
-#         'Initial cavalry troops',
-#         min_value=0,
-#         value=10000,
-#         step=None,
-#         format="%d")
-#     arc_troops_p2 = st.number_input(
-#         'Initial archery troops',
-#         min_value=0,
-#         value=10000,
-#         step=None,
-#         format="%d")
-
-#     inf_att_p2 = st.number_input(
-#         'Infantry attack (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-
-#     inf_def_p2 = st.number_input(
-#         'Infantry defense (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-
-#     inf_let_p2 = st.number_input(
-#         'Infantry lethality (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-
-#     inf_hea_p2 = st.number_input(
-#         'Infantry health (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-   
-        
-#     cav_att_p2 = st.number_input(
-#         'Cavalry attack (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-
-#     cav_def_p2 = st.number_input(
-#         'Cavalry defense (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-
-#     cav_let_p2 = st.number_input(
-#         'Cavalry lethality (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-
-#     cav_hea_p2 = st.number_input(
-#         'Cavalry health (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-   
-#     arc_att_p2 = st.number_input(
-#         'Archery attack (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-
-#     arc_def_p2 = st.number_input(
-#         'Archery defense (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-
-#     arc_let_p2 = st.number_input(
-#         'Archery lethality (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-
-#     arc_hea_p2 = st.number_input(
-#         'Archery health (in %)',
-#         min_value=0.0,
-#         value=200.0,
-#         step=None,
-#         format="%0.2f")
-   
-
-#     submitted = st.form_submit_button("Create plots!")
-
-
-
-# with st.container() as cont_stats_p1:
-#     st.write('Yours stats')
-#     with cont_stats_p1.form('form1'):
-#         col1, col2, col3 = st.columns(3)
-#         with col1:
-#             st.write('Innfantry')
-#             inf_troops_p1 = st.number_input(
-#                 'Initial infantry troops',
-#                 min_value=0,
-#                 value=10000,
-#                 step=None,
-#                 format="%d", key='inf_troops_p1')
-
-
-
-
 with st.form('form1'):
-
-
     st.subheader('Your stats')
-    #st.badge('Your stats', color='blue')
+
     col1, col2, col3 = st.columns(3)
     with col1:
         st.text('Infantry')
         inf_troops_p1 = st.number_input(
             'Initial infantry troops',
             min_value=0,
-            value=10000,
+            value=50000,
             step=None,
             format="%d", key='inf_troops_p1')
 
@@ -298,7 +61,7 @@ with st.form('form1'):
         cav_troops_p1 = st.number_input(
             'Initial cavalry troops',
             min_value=0,
-            value=10000,
+            value=50000,
             step=None,
             format="%d", key='cav_troops_p1')
 
@@ -335,7 +98,7 @@ with st.form('form1'):
         arc_troops_p1 = st.number_input(
             'Initial archery troops',
             min_value=0,
-            value=10000,
+            value=50000,
             step=None,
             format="%d", key='arc_troops_p1')
 
@@ -374,7 +137,7 @@ with st.form('form1'):
         inf_troops_p2 = st.number_input(
             'Initial infantry troops',
             min_value=0,
-            value=10000,
+            value=60000,
             step=None,
             format="%d", key='inf_troops_p2')
 
@@ -412,7 +175,7 @@ with st.form('form1'):
         cav_troops_p2 = st.number_input(
             'Initial cavalry troops',
             min_value=0,
-            value=10000,
+            value=45000,
             step=None,
             format="%d", key='cav_troops_p2')
 
@@ -449,7 +212,7 @@ with st.form('form1'):
         arc_troops_p2 = st.number_input(
             'Initial archery troops',
             min_value=0,
-            value=10000,
+            value=45000,
             step=None,
             format="%d", key='arc_troops_p2')
 
@@ -557,7 +320,6 @@ p2_stats = {
     "battle_name": ""
 }
 
-
 if submitted:
 
     player1 = sksl.Fighter(p1_stats)
@@ -579,7 +341,6 @@ if submitted:
     finf_best = np.round(finf_tab[id_best], 2)
     fcav_best = np.round(fcav_tab[id_best], 2)
     farc_best = np.round(farc_tab[id_best], 2)
-
 
     min_val = np.array(res_tab).max()
     if min_val < 20:
