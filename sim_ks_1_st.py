@@ -8,7 +8,11 @@ import matplotlib.pyplot as plt
 import sim_ks_lib as sksl
 
 
-st.title('Frakinator')
+st.title('Frakinator -- WORK IN PROGRESS')
+
+st.text('Stuck in mythic trial?')
+st.text('Not sure what troop composition to use?')
+st.text('The Frakinator is here to help!')
 
 
 # st.sidebar.title("Stats")
@@ -477,20 +481,40 @@ with st.form('form1'):
             step=None,
             format="%0.2f", key='arc_hea_p2')
 
+    st.subheader('Simulation parameters')
+    col7, col8, col9 = st.columns(3)
+    with col7:
+        nbattles = st.number_input(
+            'Number of battles simulated',
+            min_value=10,
+            max_value=100,
+            value=10,
+            step=10,
+            format="%d", key='nbattles')
+    with col8:
+        stepp = st.number_input(
+            'Sparcity',
+            min_value=0.025,
+            max_value=0.25,
+            value=.05,
+            step=0.025,
+            format="%0.3f", key='step')
+    with col9:
+        finfmin = st.number_input(
+            'Min infantry fraction',
+            min_value=0.,
+            max_value=1.,
+            value=.4,
+            step=0.01,
+            format="%0.2f", key='finfmin')
+
+
     submitted = st.form_submit_button("Create plots!")
 
 
 
 
-st.write('Modify the values on the left, and click the button!')
-
-
-#inf_att_p1 = st.number_input('Infantry attack (in %)', min_value=0.0, value=200.0, step=None, format="%0.2f", key=None, help=None, on_change=None, args=None, kwargs=None)
-#def fc_titi():
-#    st.write(inf_att_p1)
-
-
-#button = st.button('titi', on_click=fc_titi)
+st.write('Modify the values above, and click the button!')
 
 
 
@@ -540,9 +564,9 @@ if submitted:
     player2 = sksl.Fighter(p2_stats)
 
 
-    n_battles = 10
-    step = 0.05
-    f_inf_min = 0.1
+    n_battles = nbattles
+    step = stepp
+    f_inf_min = finfmin
 
     ta = time.time()
     finf_tab, fcav_tab, farc_tab, res_tab = sksl.compute_win_chances(player1, player2, n_battles, step, f_inf_min=f_inf_min)
@@ -577,7 +601,7 @@ if submitted:
     ax.legend()
     ax.set_title('inf - cav ratio for {}, {}'.format(player1.player_name, player1.battle_name)) 
     fig1.colorbar(sc, label='chances of victory [%] ')
-
+    fig1.text(0.7, -0.15, 'Plot made with the Frakinator', size='small', transform=ax.transAxes)
 
     # fig2 = plt.figure(3)
     # plt.clf()
