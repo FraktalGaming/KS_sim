@@ -413,6 +413,10 @@ if submitted:
     st.write("""
     You have an appromative {}\% chance to win with the following composition {}/{}/{}.
   """.format(int(min_val*100), int(100*finf_best), int(100*fcav_best), int(100*farc_best)))
+    st.write("""
+    The red cross indicate the classical 50/25/25 composition. 
+    """)
+
     # st.pyplot(fig2)
 
             # fig = plt.figure(1, figsize=[fs/1.2 for fs in matplotlib.rcParams['figure.figsize']])
