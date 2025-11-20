@@ -7,8 +7,17 @@ import time
 import matplotlib.pyplot as plt
 import sim_ks_lib as sksl
 
+st.set_page_config(
+    page_title="Frakinator",
+    page_icon=":duck:",
+    menu_items={
+        'Report a bug': " mailto:fraktal0gaming@gmail.com",
+    }
+)
 
 st.title('Frakinator -- WORK IN PROGRESS')
+
+st.write('Made by [544] Frak.')
 
 st.write("Stuck in mystic trials? Not sure what troop composition to use?\n \
     The Frakinator is here to help!"
@@ -35,7 +44,7 @@ with tab1:
 
         2. Vary the simulation parameters for more accurate results:\n 
             - number of battles: represents the number of battles that are simulated for each troop composition \n 
-            - sparsity: number of troop composition that are samples. Start with 0.05, and if finer sampling is required, use 0.025.\n 
+            - sparsity: number of troop composition that are sampled. Start with 0.05, and if finer sampling is required, use 0.025.\n 
             - Min infantry fraction: saves time by avoiding bad composition with low infantry
     """)
 
