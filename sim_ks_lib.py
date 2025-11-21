@@ -317,8 +317,8 @@ def get_average_results(N, player1_, player2_):
     return sum(vic_tab)/N
 
 
-def compute_win_chances(player1_, player2_, n_battles, step=0.05, f_inf_min=0.40):
-    t0 = time.time()
+def compute_win_chances(player1_, player2_, n_battles, step=0.05, f_inf_min=0.40, f_inf_max=0.80, f_cav_min=0.0, f_cav_max=0.3):
+    
     N_total = np.array(player1_.init_dict['init_troops']).sum()
     print(N_total)
     finf_tab = []
@@ -326,8 +326,8 @@ def compute_win_chances(player1_, player2_, n_battles, step=0.05, f_inf_min=0.40
     farc_tab = []
     res_tab = []
     k = 0
-    for f_inf in np.arange(f_inf_min, 1.0001, step):
-        for f_cav in np.arange(0, np.min([1.003 - f_inf, 0.801]), step):
+    for f_inf in np.arange(f_inf_min, f_inf_max+.0001, step):
+        for f_cav in np.arange(f_cav_min, np.min([1.00 - f_inf, f_cav_max+0.001]), step):
             f_arc = 1 - f_inf - f_cav
             N_inf = int(N_total * f_inf)
             N_cav = int(N_total * f_cav)
