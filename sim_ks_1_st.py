@@ -46,6 +46,7 @@ with tab1:
             - number of battles: represents the number of battles that are simulated for each troop composition \n 
             - sparsity: number of troop composition that are sampled. Start with 0.05, and if finer sampling is required, use 0.025.\n 
             - Min infantry fraction: saves time by avoiding bad composition with low infantry
+        3. For trials with heroes (Coliseum, Radiant Spire), since the tools does not (yet) include heroes, you can try to get a composition by decreasing the number of the enemy troops, while respecting the proportions. This is not as accurate as the other trials, but it can give an indication of the troop composition you can use.  
     """)
 
 
@@ -280,7 +281,8 @@ with tab1:
                 format="%0.2f", key='arc_hea_p2')
 
         st.subheader('Simulation parameters')
-        col7, col8, col9 = st.columns(3)
+
+        col7, col8 = st.columns(2)
         with col7:
             nbattles = st.number_input(
                 'Number of battles simulated',
@@ -297,6 +299,7 @@ with tab1:
                 value=.05,
                 step=0.025,
                 format="%0.3f", key='step')
+        col9, col10 = st.columns(2)    
         with col9:
             finfmin = st.number_input(
                 'Min infantry fraction',
@@ -305,6 +308,32 @@ with tab1:
                 value=.4,
                 step=0.01,
                 format="%0.2f", key='finfmin')
+        with col10:
+            finfmax = st.number_input(
+                'Max infantry fraction',
+                min_value=0.,
+                max_value=1.,
+                value=.8,
+                step=0.01,
+                format="%0.2f", key='finfmax')
+
+        col11, col12 = st.columns(2)    
+        with col11:
+            fcavmin = st.number_input(
+                'Min cavalry fraction',
+                min_value=0.,
+                max_value=1.,
+                value=.15,
+                step=0.01,
+                format="%0.2f", key='fcavmin')
+        with col12:
+            fcavmax = st.number_input(
+                'Max cavalry fraction',
+                min_value=0.,
+                max_value=1.,
+                value=.3,
+                step=0.01,
+                format="%0.2f", key='fcavmax')
 
 
         submitted = st.form_submit_button("Create plots!")
@@ -360,9 +389,14 @@ with tab1:
         step = stepp
         f_inf_min = finfmin
 
-        ta = time.time()
-        finf_tab, fcav_tab, farc_tab, res_tab = sksl.compute_win_chances(player1, player2, n_battles, step, f_inf_min=f_inf_min)
-        print(time.time()-ta)
+        finf_tab, fcav_tab, farc_tab, res_tab = sksl.compute_win_chances(
+            player1, player2,
+            n_battles, step,
+            f_inf_min=f_inf_min, f_inf_max=finfmax,
+            f_cav_min=fcavmin, f_cav_max=fcavmax
+        )
+        
+
 
         id_best = np.where(np.array(res_tab) == np.array(res_tab).max())[0][0]
         print(finf_tab[id_best])
