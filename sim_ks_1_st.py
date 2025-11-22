@@ -17,7 +17,7 @@ st.set_page_config(
 
 st.title('Frakinator -- WORK IN PROGRESS')
 
-st.write('Made by [544] Frak. You can find me on the KS discord as Frak or frak._ ')
+st.write('Made by [544] Frak. You can find me on the KS discord as Frak or frak._ , or you can send me an email fraktal0gaming at gmail com')
 
 st.write("Stuck in mystic trials? Not sure what troop composition to use?\n \
     The Frakinator is here to help!"
@@ -40,7 +40,7 @@ with tab1:
 
     st.markdown('### Instructions')
     st.write("""
-        1. Enter yous stats and the stats of the opponent, as they appear on a mystic trial battle report,\n 
+        1. Enter your stats and the stats of the opponent, as they appear on a mystic trial battle report,\n 
 
         2. Vary the simulation parameters for more accurate results:\n 
             - number of battles: represents the number of battles that are simulated for each troop composition \n 
