@@ -17,7 +17,7 @@ st.set_page_config(
 
 st.title('Frakinator -- WORK IN PROGRESS')
 
-st.write('Made by [544] Frak.')
+st.write('Made by [544] Frak. You can find me on the KS discord as Frak or frak._ ')
 
 st.write("Stuck in mystic trials? Not sure what troop composition to use?\n \
     The Frakinator is here to help!"
