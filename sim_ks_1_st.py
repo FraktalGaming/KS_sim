@@ -590,7 +590,7 @@ with tab2:
     fig2 = plt.figure(2)
     ax2 = fig2.gca()
 
-    sc = ax2.scatter(finf_tab, fcav_tab, c=np.array(res_tab)/max_dam, vmin=0)
+    sc = ax2.scatter(finf_tab, fcav_tab, c=np.array(res_tab)/max_dam, vmin=0.5)
     ax2.plot(.10, .10, c='r', lw=0, marker='x', ms=5, label='10/10/80', mew=3)
     ax2.plot(finf_best, fcav_best,  c='m', lw=0, marker='x', ms=3, label='Best {}/{}/{}'.format(int(finf_best*100), int(fcav_best*100), int(farc_best*100)), mew=3)
     ax2.set_xlabel('infantry fraction')
