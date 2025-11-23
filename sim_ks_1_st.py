@@ -452,7 +452,7 @@ with tab1:
         You have an appromative {}\% chance to win with the following composition {}/{}/{}.
     """.format(int(min_val*100), int(100*finf_best), int(100*fcav_best), int(100*farc_best)))
         st.write("""
-        The red cross indicate the classical 50/25/25 composition. 
+        The red cross indicates the classical 50/25/25 composition. 
         """)
 
     # st.pyplot(fig2)
@@ -539,7 +539,7 @@ with tab2:
                 step=25.0,
                 format="%0.2f", key='arc_let_bear')
 
-    fa = np.arange(1001)/1000
+
 
     inf_att = inf_att_bear
     inf_let = inf_let_bear
@@ -549,45 +549,66 @@ with tab2:
 
     arc_att = arc_att_bear
     arc_let = arc_let_bear
- 
-    fig2 = plt.figure(3)
+
+    damage = []
+    finf_tab = []
+    fcav_tab = []
+    farc_tab = []
+    res_tab = []
+    k = 0
+    step = 0.025
+    for f_inf in np.arange(0, 1.01, step):
+        for f_cav in np.arange(0, np.min([1.00 - f_inf, 1.001]), step):
+            f_arc = 1 - f_inf - f_cav
+            
+
+            a = (1+cav_att/100) * (1+cav_let/100)
+            b = 4/3 * (1+arc_att/100) * (1+arc_let/100)*1.1
+            c = 1/3 * (1+inf_att/100) * (1+inf_let/100)
+
+            #f_inf = 0
+            #f_arc = fa * (1-f_inf)
+            res1 = (np.sqrt(f_cav)* a + np.sqrt(f_arc) * b +  np.sqrt(f_inf) *c )
+
+
+            finf_tab.append(f_inf)
+            fcav_tab.append(f_cav)
+            farc_tab.append(f_arc)
+            res_tab.append(res1)
+
+
+
+    id_best = np.where(np.array(res_tab) == np.array(res_tab).max())[0][0]
+    max_dam = np.array(res_tab).max()
+    print(finf_tab[id_best])
+    print(fcav_tab[id_best])
+    print(farc_tab[id_best])
+    finf_best = np.round(finf_tab[id_best], 2)
+    fcav_best = np.round(fcav_tab[id_best], 2)
+    farc_best = np.round(farc_tab[id_best], 2)
+
+    fig2 = plt.figure(2)
     ax2 = fig2.gca()
 
-
-    a = (1+cav_att/100) * (1+cav_let/100)
-    b = 4/3 * (1+arc_att/100) * (1+arc_let/100)*1.1
-    c = 1/3 * (1+inf_att/100) * (1+inf_let/100)
-
-    f_inf = 0
-    f_arc = fa * (1-f_inf)
-    res1 = (np.sqrt(1-f_arc-f_inf)* a + np.sqrt(f_arc) * b +  np.sqrt(f_inf) *c )
-    ax2.plot(f_arc, res1, label=r"""$f_{\rm{inf}} = 0$""")
-
-    f_inf = .1
-    f_arc = fa * (1-f_inf)
-    res1 = (np.sqrt(1-f_arc-f_inf)* a + np.sqrt(f_arc) * b+  np.sqrt(f_inf) *c)
-    ax2.plot(f_arc, res1, label=r"""$f_{\rm{inf}} = 0.1$""")
-
-    f_inf = .2
-    f_arc = fa * (1-f_inf)
-    res1 = (np.sqrt(1-f_arc-f_inf)* a + np.sqrt(f_arc) * b+  np.sqrt(f_inf) *c)
-    ax2.plot(f_arc, res1, label=r"""$f_{\rm{inf}} = 0.2$""")
-
-    f_inf = .3
-    f_arc = fa * (1-f_inf)
-    res1 = (np.sqrt(1-f_arc-f_inf)* a + np.sqrt(f_arc) * b+  np.sqrt(f_inf) *c)
-    ax2.plot(f_arc, res1, label=r"""$f_{\rm{inf}} = 0.3$""")
-
-    ax2.set_xlabel('f_arc')
-    ax2.set_ylabel('Unscaled Total damage')
-    fopt = b**2/(a**2+b**2)
+    sc = ax2.scatter(finf_tab, fcav_tab, c=np.array(res_tab)/max_dam, vmin=0)
+    ax2.plot(.10, .10, c='r', lw=0, marker='x', ms=5, label='10/10/80', mew=3)
+    ax2.plot(finf_best, fcav_best,  c='m', lw=0, marker='x', ms=3, label='Best {}/{}/{}'.format(int(finf_best*100), int(fcav_best*100), int(farc_best*100)), mew=3)
+    ax2.set_xlabel('infantry fraction')
+    ax2.set_ylabel('cavalry fraction')
+    ax2.set_xlim(-0.05, 1.05)
+    ax2.set_ylim(-0.05, 1.05)
     ax2.legend()
-
-    ax2.axvline(fopt)
-
+    #ax.set_title(', {}'.format(player1.player_name, player1.battle_name)) 
+    fig2.colorbar(sc, label='Fraction of maximal damage')
     fig2.text(0.7, -0.15, 'Plot made with the Frakinator', size='small', transform=ax2.transAxes)
     st.pyplot(fig2)
 
+    st.write("""
+        With the leader stats you have entered, the best composition would be {}/{}/{}.
+    """.format(int(100*finf_best), int(100*fcav_best), int(100*farc_best)))
+    st.write("""
+        The red cross indicates a typical 10/10/80 composition. 
+        """)
 
 
 
