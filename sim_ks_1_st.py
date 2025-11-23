@@ -38,6 +38,9 @@ tab1, tab2, tab3 = st.tabs(["Mystic Trials", "Bear", "Acknowledgements"])
 
 with tab1:
 
+
+
+
     st.markdown('### Instructions')
     st.write("""
         1. Enter your stats and the stats of the opponent, as they appear on a mystic trial battle report,\n 
@@ -472,8 +475,121 @@ with tab2:
     with st.container():
         st.markdown('## Bear')
         st.write("""
-        Soon
+        Total bear damage is the sum of the damage done independantly by infantry, cavalary and archery.
+        The damage of each troop is:
+        - proportional linearly to the attack of the rally leader
+        - proportional linearly to the lethality of the rally leader
+        - proportional to square root of the number of troops of a given type (Inf, Cav, or Arc)
+         
+        I'll explain the maths behind soon, but here is a small interactive model where you can modify the attack and lethality bonuses of the rally leader, and see how the damage would scale for 0, 10%, 20% and 30% infantry, as a function of the fraction of archers.\n 
+        Note: The numbers given below are not the final bear damage, of course. This is just an illustration of how damage would varry if you change your troop composition, given the attack and lethality stats of your rally leader. Also, no hero are considered here. 
         """)
+
+        col50, col51, col52 = st.columns(3)
+        
+        with col50:
+            st.text('Infantry')
+        
+            inf_att_bear = st.number_input(
+                'Infantry attack (in %)',
+                min_value=0.0,
+                value=400.0,
+                step=25.0,
+                format="%0.2f", key='inf_att_bear')
+            
+            inf_let_bear = st.number_input(
+                'Infantry lethality (in %)',
+                min_value=0.0,
+                value=400.0,
+                step=25.0,
+                format="%0.2f", key='inf_let_bear')
+        
+        with col51:
+            st.text('Cavalry')
+        
+            cav_att_bear = st.number_input(
+                'Cavalry attack (in %)',
+                min_value=0.0,
+                value=400.0,
+                step=25.0,
+                format="%0.2f", key='cav_att_bear')
+            
+            cav_let_bear = st.number_input(
+                'Cavalry lethality (in %)',
+                min_value=0.0,
+                value=400.0,
+                step=25.0,
+                format="%0.2f", key='cav_let_bear')
+
+
+        with col52:
+            st.text('Archery')
+        
+            arc_att_bear = st.number_input(
+                'Archery attack (in %)',
+                min_value=0.0,
+                value=400.0,
+                step=25.0,
+                format="%0.2f", key='arc_att_bear')
+            
+            arc_let_bear = st.number_input(
+                'Archery lethality (in %)',
+                min_value=0.0,
+                value=400.0,
+                step=25.0,
+                format="%0.2f", key='arc_let_bear')
+
+    fa = np.arange(101)/100
+
+    inf_att = inf_att_bear
+    inf_let = inf_let_bear
+
+    cav_att = cav_att_bear
+    cav_let = cav_let_bear
+
+    arc_att = arc_att_bear
+    arc_let = arc_let_bear
+ 
+    fig2 = plt.figure(3)
+    ax2 = fig2.gca()
+
+
+    a = (1+cav_att/100) * (1+cav_let/100)
+    b = 4/3 * (1+arc_att/100) * (1+arc_let/100)*1.1
+    c = 1/3 * (1+inf_att/100) * (1+inf_let/100)
+
+    f_inf = 0
+    f_arc = fa * (1-f_inf)
+    res1 = (np.sqrt(1-f_arc-f_inf)* a + np.sqrt(f_arc) * b +  np.sqrt(f_inf) *c )
+    ax2.plot(f_arc, res1, label=r"""$f_{\rm{inf}} = 0$""")
+
+    f_inf = .1
+    f_arc = fa * (1-f_inf)
+    res1 = (np.sqrt(1-f_arc-f_inf)* a + np.sqrt(f_arc) * b+  np.sqrt(f_inf) *c)
+    ax2.plot(f_arc, res1, label=r"""$f_{\rm{inf}} = 0.1$""")
+
+    f_inf = .2
+    f_arc = fa * (1-f_inf)
+    res1 = (np.sqrt(1-f_arc-f_inf)* a + np.sqrt(f_arc) * b+  np.sqrt(f_inf) *c)
+    ax2.plot(f_arc, res1, label=r"""$f_{\rm{inf}} = 0.2$""")
+
+    f_inf = .3
+    f_arc = fa * (1-f_inf)
+    res1 = (np.sqrt(1-f_arc-f_inf)* a + np.sqrt(f_arc) * b+  np.sqrt(f_inf) *c)
+    ax2.plot(f_arc, res1, label=r"""$f_{\rm{inf}} = 0.3$""")
+
+    ax2.set_xlabel('f_arc')
+    ax2.set_ylabel('Unscaled Total damage')
+    fopt = b**2/(a**2+b**2)
+    ax2.legend()
+
+    ax2.axvline(fopt)
+
+    fig2.text(0.7, -0.15, 'Plot made with the Frakinator', size='small', transform=ax2.transAxes)
+    st.pyplot(fig2)
+
+
+
 
 with tab3:
     with st.container():
