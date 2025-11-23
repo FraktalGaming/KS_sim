@@ -539,7 +539,7 @@ with tab2:
                 step=25.0,
                 format="%0.2f", key='arc_let_bear')
 
-    fa = np.arange(101)/100
+    fa = np.arange(1001)/1000
 
     inf_att = inf_att_bear
     inf_let = inf_let_bear
