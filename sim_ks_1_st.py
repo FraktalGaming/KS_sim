@@ -439,22 +439,6 @@ with tab1:
         fig1.colorbar(sc, label='chances of victory [%] ')
         fig1.text(0.7, -0.15, 'Plot made with the Frakinator', size='small', transform=ax.transAxes)
 
-        # fig2 = plt.figure(3)
-        # plt.clf()
-        # plt.scatter(farc_tab, finf_tab, c=np.array(res_tab)*100, vmin=0)
-        # plt.plot(.25, .50, c='r', lw=0, marker='x', ms=5, label='50/25/25', mew=3)
-        # plt.plot(farc_best, finf_best,  c='m', lw=0, marker='x', ms=3, label='Best {}/{}/{}'.format(int(finf_best*100), int(fcav_best*100), int(farc_best*100)), mew=3)
-        # plt.xlabel('f_arc')
-        # plt.ylabel('f_inf')
-        # plt.xlim(-0.05, 1.05)
-        # plt.ylim(-0.05, 1.05)
-        # plt.legend()
-        # plt.title('arc - inf ratio for {}, {}'.format(player1.player_name, player1.battle_name)) 
-        # plt.colorbar(label='chances of victory [%] ')
-        # plt.title('arc - inf ratio for {}, {}'.format(player1.player_name, player1.battle_name))
-
-
-
         st.pyplot(fig1)
         st.write("""
         You have an appromative {}\% chance to win with the following composition {}/{}/{}.
@@ -462,22 +446,6 @@ with tab1:
         st.write("""
         The red cross indicates the classical 50/25/25 composition. 
         """)
-
-    # st.pyplot(fig2)
-
-            # fig = plt.figure(1, figsize=[fs/1.2 for fs in matplotlib.rcParams['figure.figsize']])
-            # ax = fig.gca()
-            # ax.errorbar(XX[:, 1], YY, yerr=sigma, fmt='k.', label='Training data')
-            # ax.plot(x_2[:,1], x_2 @ w_ols, 'r-', label='OLS')
-            # ax.plot(x_, alpha*x_ + b, 'b-', label='model')
-            # ax.set_xlim(x_min, x_max)
-            # ax.set_ylim(alpha *x_min + b-2*sigma, alpha *x_max + b + 2*sigma)
-            # ax.set_xlabel('x', fontsize=14)
-            # ax.set_ylabel('y', fontsize=14)
-            # ax.legend()
-            # st.pyplot(fig)
-
-
 
 with tab2:
     with st.container():
@@ -488,23 +456,23 @@ with tab2:
         - proportional linearly to the attack of the rally leader
         - proportional linearly to the lethality of the rally leader
         - proportional to square root of the number of troops of a given type (Inf, Cav, or Arc)
-         
+
         I'll explain the maths behind soon, but here is a small interactive model where you can modify the attack and lethality bonuses of the rally leader, and see how the damage would scale for 0, 10%, 20% and 30% infantry, as a function of the fraction of archers.\n 
         Note: The numbers given below are not the final bear damage, of course. This is just an illustration of how damage would varry if you change your troop composition, given the attack and lethality stats of your rally leader. Also, no hero are considered here. 
         """)
 
         col50, col51, col52 = st.columns(3)
-        
+
         with col50:
             st.text('Infantry')
-        
+
             inf_att_bear = st.number_input(
                 'Infantry attack (in %)',
                 min_value=0.0,
                 value=400.0,
                 step=25.0,
                 format="%0.2f", key='inf_att_bear')
-            
+
             inf_let_bear = st.number_input(
                 'Infantry lethality (in %)',
                 min_value=0.0,
@@ -573,18 +541,12 @@ with tab2:
             a = (1+cav_att/100) * (1+cav_let/100)
             b = 4/3 * (1+arc_att/100) * (1+arc_let/100)*1.1
             c = 1/3 * (1+inf_att/100) * (1+inf_let/100)
-
-            #f_inf = 0
-            #f_arc = fa * (1-f_inf)
-            res1 = (np.sqrt(f_cav)* a + np.sqrt(f_arc) * b +  np.sqrt(f_inf) *c )
-
+            res1 = (np.sqrt(f_cav) * a + np.sqrt(f_arc) * b +  np.sqrt(f_inf) *c )
 
             finf_tab.append(f_inf)
             fcav_tab.append(f_cav)
             farc_tab.append(f_arc)
             res_tab.append(res1)
-
-
 
     id_best = np.where(np.array(res_tab) == np.array(res_tab).max())[0][0]
     max_dam = np.array(res_tab).max()
@@ -617,8 +579,6 @@ with tab2:
     st.write("""
         The red cross indicates a typical 10/10/80 composition. 
         """)
-
-
 
 with tab3:
     with st.container():
