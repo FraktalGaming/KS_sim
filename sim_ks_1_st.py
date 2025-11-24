@@ -337,8 +337,16 @@ with tab1:
                 value=.3,
                 step=0.01,
                 format="%0.2f", key='fcavmax')
+        col13, col14 = st.columns(2)
+        with col13:            
+            trial_name = st.selectbox(
+                "Mystic trial",
+                ("Forest of Life", "Crystal Cave", "Knowledge Nexus", "Molten Fort"),
+            )
+        with col14:
+            player_name = st.text_input("Player name", "Enter your name here")
 
-
+        print(player_name, trial_name)
         submitted = st.form_submit_button("Create plots!")
 
     st.write('Modify the values above, and click the button!')
@@ -427,7 +435,7 @@ with tab1:
         ax.set_xlim(-0.05, 1.05)
         ax.set_ylim(-0.05, 1.05)
         ax.legend()
-        #ax.set_title(', {}'.format(player1.player_name, player1.battle_name)) 
+        ax.set_title('{} - {}'.format(trial_name, player_name)) 
         fig1.colorbar(sc, label='chances of victory [%] ')
         fig1.text(0.7, -0.15, 'Plot made with the Frakinator', size='small', transform=ax.transAxes)
 
