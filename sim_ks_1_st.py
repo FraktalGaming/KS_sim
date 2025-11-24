@@ -346,7 +346,6 @@ with tab1:
         with col14:
             player_name = st.text_input("Player name", "Enter your name here")
 
-        print(player_name, trial_name)
         submitted = st.form_submit_button("Create plots!")
 
     st.write('Modify the values above, and click the button!')
@@ -391,7 +390,7 @@ with tab1:
 
 
     if submitted:
-
+        print(player_name, trial_name)
         player1 = sksl.Fighter(p1_stats)
         player2 = sksl.Fighter(p2_stats)
 
