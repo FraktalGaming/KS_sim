@@ -390,7 +390,7 @@ with tab1:
 
 
     if submitted:
-        print(player_name, trial_name)
+        print(player_name, trial_name, time.time())
         player1 = sksl.Fighter(p1_stats)
         player2 = sksl.Fighter(p2_stats)
 
