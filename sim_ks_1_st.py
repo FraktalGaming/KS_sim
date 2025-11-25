@@ -460,6 +460,7 @@ with tab2:
         Note: The numbers given below are not the final bear damage, of course. This is just an illustration of how damage would varry if you change your troop composition, given the attack and lethality stats of your rally leader. Also, no hero are considered here. 
         """)
 
+    with st.form('form2'):
         col50, col51, col52 = st.columns(3)
 
         with col50:
@@ -478,17 +479,17 @@ with tab2:
                 value=400.0,
                 step=25.0,
                 format="%0.2f", key='inf_let_bear')
-        
+
         with col51:
             st.text('Cavalry')
-        
+
             cav_att_bear = st.number_input(
                 'Cavalry attack (in %)',
                 min_value=0.0,
                 value=400.0,
                 step=25.0,
                 format="%0.2f", key='cav_att_bear')
-            
+
             cav_let_bear = st.number_input(
                 'Cavalry lethality (in %)',
                 min_value=0.0,
@@ -499,85 +500,83 @@ with tab2:
 
         with col52:
             st.text('Archery')
-        
+
             arc_att_bear = st.number_input(
                 'Archery attack (in %)',
                 min_value=0.0,
                 value=400.0,
                 step=25.0,
                 format="%0.2f", key='arc_att_bear')
-            
+
             arc_let_bear = st.number_input(
                 'Archery lethality (in %)',
                 min_value=0.0,
                 value=400.0,
                 step=25.0,
                 format="%0.2f", key='arc_let_bear')
+        submitted2 = st.form_submit_button("Create plots!")
+
+    if submitted2:
+
+        inf_att = inf_att_bear
+        inf_let = inf_let_bear
+
+        cav_att = cav_att_bear
+        cav_let = cav_let_bear
+
+        arc_att = arc_att_bear
+        arc_let = arc_let_bear
+
+        damage = []
+        finf_tab2 = []
+        fcav_tab2 = []
+        farc_tab2 = []
+        res_tab2 = []
+        k = 0
+        step = 0.025
+        for f_inf in np.arange(0, 1.01, step):
+            for f_cav in np.arange(0, np.min([1.00 - f_inf, 1.001]), step):
+                f_arc = 1 - f_inf - f_cav
+
+                a = (1+cav_att/100) * (1+cav_let/100)
+                b = 4/3 * (1+arc_att/100) * (1+arc_let/100)*1.1
+                c = 1/3 * (1+inf_att/100) * (1+inf_let/100)
+                res1 = (np.sqrt(f_cav) * a + np.sqrt(f_arc) * b +  np.sqrt(f_inf) *c )
+
+                finf_tab2.append(f_inf)
+                fcav_tab2.append(f_cav)
+                farc_tab2.append(f_arc)
+                res_tab2.append(res1)
+
+        id_best = np.where(np.array(res_tab2) == np.array(res_tab2).max())[0][0]
+        max_dam = np.array(res_tab2).max()
+
+        finf_best = np.round(finf_tab2[id_best], 2)
+        fcav_best = np.round(fcav_tab2[id_best], 2)
+        farc_best = np.round(farc_tab2[id_best], 2)
 
 
+        fig2 = plt.figure(2)
+        ax2 = fig2.gca()
+        sc = ax2.scatter(finf_tab2, fcav_tab2, c=np.array(res_tab2)/max_dam, vmin=0.5)
+        ax2.plot(.10, .10, c='r', lw=0, marker='x', ms=5, label='10/10/80', mew=3)
+        ax2.plot(finf_best, fcav_best,  c='m', lw=0, marker='x', ms=3, label='Best {}/{}/{}'.format(int(finf_best*100), int(fcav_best*100), int(farc_best*100)), mew=3)
+        ax2.set_xlabel('infantry fraction')
+        ax2.set_ylabel('cavalry fraction')
+        ax2.set_xlim(-0.05, 1.05)
+        ax2.set_ylim(-0.05, 1.05)
+        ax2.legend()
+        #ax.set_title(', {}'.format(player1.player_name, player1.battle_name)) 
+        fig2.colorbar(sc, label='Fraction of maximal damage')
+        fig2.text(0.7, -0.15, 'Plot made with the Frakinator', size='small', transform=ax2.transAxes)
+        st.pyplot(fig2)
 
-    inf_att = inf_att_bear
-    inf_let = inf_let_bear
-
-    cav_att = cav_att_bear
-    cav_let = cav_let_bear
-
-    arc_att = arc_att_bear
-    arc_let = arc_let_bear
-
-    damage = []
-    finf_tab = []
-    fcav_tab = []
-    farc_tab = []
-    res_tab = []
-    k = 0
-    step = 0.025
-    for f_inf in np.arange(0, 1.01, step):
-        for f_cav in np.arange(0, np.min([1.00 - f_inf, 1.001]), step):
-            f_arc = 1 - f_inf - f_cav
-            
-
-            a = (1+cav_att/100) * (1+cav_let/100)
-            b = 4/3 * (1+arc_att/100) * (1+arc_let/100)*1.1
-            c = 1/3 * (1+inf_att/100) * (1+inf_let/100)
-            res1 = (np.sqrt(f_cav) * a + np.sqrt(f_arc) * b +  np.sqrt(f_inf) *c )
-
-            finf_tab.append(f_inf)
-            fcav_tab.append(f_cav)
-            farc_tab.append(f_arc)
-            res_tab.append(res1)
-
-    id_best = np.where(np.array(res_tab) == np.array(res_tab).max())[0][0]
-    max_dam = np.array(res_tab).max()
-    print(finf_tab[id_best])
-    print(fcav_tab[id_best])
-    print(farc_tab[id_best])
-    finf_best = np.round(finf_tab[id_best], 2)
-    fcav_best = np.round(fcav_tab[id_best], 2)
-    farc_best = np.round(farc_tab[id_best], 2)
-
-    fig2 = plt.figure(2)
-    ax2 = fig2.gca()
-
-    sc = ax2.scatter(finf_tab, fcav_tab, c=np.array(res_tab)/max_dam, vmin=0.5)
-    ax2.plot(.10, .10, c='r', lw=0, marker='x', ms=5, label='10/10/80', mew=3)
-    ax2.plot(finf_best, fcav_best,  c='m', lw=0, marker='x', ms=3, label='Best {}/{}/{}'.format(int(finf_best*100), int(fcav_best*100), int(farc_best*100)), mew=3)
-    ax2.set_xlabel('infantry fraction')
-    ax2.set_ylabel('cavalry fraction')
-    ax2.set_xlim(-0.05, 1.05)
-    ax2.set_ylim(-0.05, 1.05)
-    ax2.legend()
-    #ax.set_title(', {}'.format(player1.player_name, player1.battle_name)) 
-    fig2.colorbar(sc, label='Fraction of maximal damage')
-    fig2.text(0.7, -0.15, 'Plot made with the Frakinator', size='small', transform=ax2.transAxes)
-    st.pyplot(fig2)
-
-    st.write("""
-        With the leader stats you have entered, the best composition would be {}/{}/{}.
-    """.format(int(100*finf_best), int(100*fcav_best), int(100*farc_best)))
-    st.write("""
-        The red cross indicates a typical 10/10/80 composition. 
-        """)
+        st.write("""
+            With the leader stats you have entered, the best composition would be {}/{}/{}.
+        """.format(int(100*finf_best), int(100*fcav_best), int(100*farc_best)))
+        st.write("""
+            The red cross indicates a typical 10/10/80 composition. 
+            """)
 
 with tab3:
     with st.container():
