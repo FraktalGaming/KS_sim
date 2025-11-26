@@ -393,8 +393,6 @@ with tab1:
         print(player_name, trial_name, time.time())
         player1 = sksl.Fighter(p1_stats)
         player2 = sksl.Fighter(p2_stats)
-
-
         n_battles = nbattles
         step = stepp
         f_inf_min = finfmin
@@ -405,13 +403,9 @@ with tab1:
             f_inf_min=f_inf_min, f_inf_max=finfmax,
             f_cav_min=fcavmin, f_cav_max=fcavmax
         )
-        
-
 
         id_best = np.where(np.array(res_tab) == np.array(res_tab).max())[0][0]
-        print(finf_tab[id_best])
-        print(fcav_tab[id_best])
-        print(farc_tab[id_best])
+
         finf_best = np.round(finf_tab[id_best], 2)
         fcav_best = np.round(fcav_tab[id_best], 2)
         farc_best = np.round(farc_tab[id_best], 2)
@@ -421,7 +415,6 @@ with tab1:
             vmin = 20
         else:
             vmin = 100
-
 
         fig1 = plt.figure(2)
         ax = fig1.gca()
@@ -445,6 +438,7 @@ with tab1:
         st.write("""
         The red cross indicates the classical 50/25/25 composition. 
         """)
+        print('----------------------------------------')
 
 with tab2:
     with st.container():
@@ -517,7 +511,7 @@ with tab2:
         submitted2 = st.form_submit_button("Create plots!")
 
     if submitted2:
-
+        print('Bear tab was used')
         inf_att = inf_att_bear
         inf_let = inf_let_bear
 
@@ -554,7 +548,6 @@ with tab2:
         finf_best = np.round(finf_tab2[id_best], 2)
         fcav_best = np.round(fcav_tab2[id_best], 2)
         farc_best = np.round(farc_tab2[id_best], 2)
-
 
         fig2 = plt.figure(2)
         ax2 = fig2.gca()

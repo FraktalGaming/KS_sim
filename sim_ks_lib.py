@@ -347,7 +347,6 @@ def compute_win_chances(player1_, player2_, n_battles, step=0.05, f_inf_min=0.40
             farc_tab.append(f_arc)
             res_tab.append(avg)
 
-    t1 = time.time()
 
-    print(k)
+    print('time of simulation [sec] =', k)
     return finf_tab, fcav_tab, farc_tab, res_tab
