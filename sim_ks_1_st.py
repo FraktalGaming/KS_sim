@@ -34,13 +34,9 @@ st.write("""
 
 
 
-tab1, tab2, tab3 = st.tabs(["Mystic Trials", "Bear", "Acknowledgements"])
+tab1, tab2, tab3, tab4 = st.tabs(["Mystic Trials", "Bear", "Theory-crafting","Acknowledgements"])
 
 with tab1:
-
-
-
-
     st.markdown('### Instructions')
     st.write("""
         1. Enter your stats and the stats of the opponent, as they appear on a mystic trial battle report,\n 
@@ -571,7 +567,74 @@ with tab2:
             The red cross indicates a typical 10/10/80 composition. 
             """)
 
-with tab3:
+with tab3: 
+    st.markdown('## Theory-crafting')
+    st.markdown("#### Disclaimer")
+    st.write("""All the following is just a tentative to model the battle mechanics of the game. I have no knowledge of the real implementation done by the devs.
+    All is based on previous investigations done by others, and by deductions and a lot of testing.
+    Therefore I do not claim that any of the following is real nor accurate. That being said, I have done lots of tests, and I confidently believe that the bulk of what I am writing here is a good representation of the game mechanics. 
+    There are still some elements that I don't know/understand yet.
+    """)
+    st.markdown("#### Notations")
+
+    st.write(r"""
+    We start by introducing some notations that will be useful. In all the calculation done in the battle mechanics attack and lethality always go together and are multiplied. 
+    
+    We thus introduce the "Attack Factor", noted $A$, as 
+    $$
+    A =  \left[1 + \frac{ \rm{attack\_bonus} }{100}\right] * \left[1 + \frac{ \rm{lethality\_bonus} }{100}\right].
+    $$
+    Similarly, we define the defense factor, noted $D$, as
+    $$
+    D =  \left[1 + \frac{ \rm{defense\_bonus} }{100}\right] * \left[1 + \frac{ \rm{health\_bonus} }{100}\right].
+    $$
+
+    In those two expressions, attack_bonus, lethality_bonus, defense_bonus, and health_bonus refer to the stats of a player that we can find in a typical battle report. This may look complicated, but this is just how you compute percentages.
+    """)
+    with st.container(border=True):
+        st.write(r"""
+            Example: if attack_bonus = +250% and lethality_bonus = +163%, the attack factor will be 
+            $$
+            A = (1+250/100) * (1+163/100) = 8.26.
+            $$
+        """)
+    st.write(r"""
+    Of course, each of the unit types (Infantry, Cavalry, Archer) will have their own attack and defense factors, that we will denote
+    $A^{\rm{inf}}$ or $D^{\rm{arc}}$, depending on the unit type.
+    """)
+
+    st.markdown("#### The simplified kill formula")
+    st.write(r"""
+    At the core of every battle, is the kill formula that gives the number of killed/dead/removed units of one player due to the units of the other player.
+    If we consider one player $p_1$ attacking a player $p_2$, the number of units of a given type of player $p_2$ killed by one type of units of player $p_1$ is given by:
+    $$
+    K_{{p_2}} \propto \sqrt{N_{{p_1}}}
+    \frac{{(\rm{base\_att}*\rm{base\_let})_{p_1}}}{{(\rm{base\_def}*\rm{base\_hea})_{p_2}}}
+    \frac{A_{\rm{p_1}}}{D_{\rm{p_2}}}
+    $$
+
+    Let's discuss this equation a bit.
+    -  $\sqrt{N_{{p_1}}}$: here $N_{p_1}$ is the number of troop of a giben type (infantry, cavalry or archery). The fact that the number if kills depends on the square root of the number of troopd is very important.
+    This term is increasing, if you add more more troops, you'll do more damage, but not in the proportion of the added troops. If you have twice the number of troops, the damage will not increase by a factor 2, but by a factor $\sqrt{2}\approx 1.4$. If you have 10 times  more troops, the damage is inxcreased by $\sqrt{10}\approx3.1$.
+
+    - $ \frac{A_{\rm{p_1}}}{D_{\rm{p_2}}}$: This is the ratio of attack factor of the attacker's troop to the defense factor of the defender's troop. Thus attack and defence factor are always considered as a ratio.     
+    
+    - $\rm{base\_att}, \rm{base\_let}, \rm{base\_def}, \rm{base\_hea}$: This is where it gets interesting! Those numbers are the base stats of the troops that are considered in the battle. This makes sense: the stats bonuses that we see in battles reports are percentsge bonus. But percentage of what? 
+    In the end, the stats bonues are applied to those base stats. But the exact values of those base are not given in the game. I strongly believe, and once again I can be wrong, that the values are the ones of a older game, called State of Survival. See the Acknowledgment tab for a link.
+    Also, $\rm{base\_let}$ anbd $\rm{base\_def}$ are always the same for all the troop and all the tier, and this common value is 10. But those two number simplify in the kill formula and we are left with just two numbers for troop/tier:
+        - $\rm{base\_att}$
+        - $\rm{base\_hea}$
+
+    You can find the values for the units on the SoS fan website. One interesting thing is that we seems to always have the following relations:
+    - Attack_inf = Health_cav = 1/3 Health_inf = 1/3 Attack_cav
+    - Attack_inf = 4/3 Health_arc = 1/4 Attack_arc
+    """)
+
+    st.write(r"""
+    To be continued.
+    """)
+
+with tab4:
     with st.container():
         st.markdown('## Acknowledgements')
         st.write("""
